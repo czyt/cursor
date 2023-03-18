@@ -23,9 +23,12 @@ func NewClient() *Client {
 func (c *Client) Tests(data TestsRequest) (response any, err error) {
 	client := &http.Client{}
 	payload, err := json.Marshal(data)
+	if err != nil {
+		return nil, err
+	}
 	req, err := builder.NewRequest(http.MethodPost, testsUrl, "", payload)
 	if err != nil {
-		return
+		return nil, err
 	}
 	res, err := client.Do(req)
 	if err != nil {
@@ -55,6 +58,9 @@ func (c *Client) Comment(comment CommentRequest) (response any, err error) {
 
 func (c *Client) Conversation(conversation ConversationRequest, language string) (response string, err error) {
 	payload, err := json.Marshal(conversation)
+	if err != nil {
+		return "", err
+	}
 	client := &http.Client{}
 	req, err := builder.NewRequest(http.MethodPost, conversationUrl, "", payload)
 	if err != nil {
