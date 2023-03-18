@@ -1,3 +1,3 @@
-module github.com/czyt/cursor
+module go.czyt.tech/cursor
 
 go 1.20
