@@ -32,7 +32,7 @@ func TestClient_Conversation(t *testing.T) {
 	cli := NewClient()
 	response, err := cli.Conversation(ConversationRequest{
 		UserRequest: UserRequest{
-			Message:              "golang loop Example",
+			Message:              "golang waitgroup Example",
 			CurrentFileName:      "gopher.go",
 			CurrentRootPath:      "C:\\Users\\czyt\\cursor-tutor",
 			PrecedingCode:        []any{},

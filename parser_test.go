@@ -3,6 +3,7 @@ package cursor
 import (
 	"bytes"
 	"fmt"
+	"strconv"
 	"testing"
 )
 
@@ -108,6 +109,7 @@ data: [DONE]`)
 }
 
 func TestTakePart(t *testing.T) {
-	part := takePart(`data: " executing\")\n}\n"`)
-	fmt.Println(part)
+	part := takePart(`data: "\tdefer"`)
+	unquote, _ := strconv.Unquote(part[0])
+	fmt.Println(unquote)
 }

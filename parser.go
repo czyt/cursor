@@ -5,6 +5,7 @@ import (
 	"bytes"
 	"io"
 	"regexp"
+	"strconv"
 	"strings"
 )
 
@@ -28,7 +29,8 @@ func Parse(reader io.Reader) []byte {
 		}
 		if messageHasBegin {
 			part := takePart(data)
-			buffer.WriteString(part[0])
+			unquote, _ := strconv.Unquote(part[0])
+			buffer.WriteString(unquote)
 		}
 	}
 	return buffer.Bytes()
