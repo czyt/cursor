@@ -46,7 +46,7 @@ func TestClient_Conversation(t *testing.T) {
 		BotMessages:  []any{},
 		ContextType:  "copilot",
 		RootPath:     "C:\\Users\\czyt\\cursor-tutor",
-	})
+	}, "")
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -57,22 +57,23 @@ func TestClient_ConversationChat(t *testing.T) {
 	cli := NewClient()
 	response, err := cli.Conversation(ConversationRequest{
 		UserRequest: UserRequest{
-			Message:              "explain this regexp",
+			Message:              "解释这个正则",
 			CurrentFileName:      "gopher.go",
-			CurrentSelection:     "re := regexp.MustCompile(`data: \\\" executing\\\\\\\\\\\\\\\"\\\\)\\\\\\\\\\\\\\\\n\\\\}\\\\\\\\\\\\\\\\n\\\"`)\\n",
+			CurrentFileContents:  "^1[3-9]\\\\d{9}$\\n",
+			CurrentSelection:     "^1[3-9]\\\\d{9}$\\n",
 			CurrentRootPath:      "C:\\Users\\czyt\\cursor-tutor",
 			PrecedingCode:        []any{},
 			SuffixCode:           []any{},
 			CopilotCodeBlocks:    []any{},
 			CustomCodeBlocks:     []any{},
 			CodeBlockIdentifiers: []any{},
-			MsgType:              "generate",
+			MsgType:              "edit",
 		},
 		UserMessages: []any{},
 		BotMessages:  []any{},
 		ContextType:  "copilot",
 		RootPath:     "C:\\Users\\czyt\\cursor-tutor",
-	})
+	}, "zh-CN")
 	if err != nil {
 		t.Fatal(err)
 	}

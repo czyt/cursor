@@ -67,7 +67,7 @@ func (c *Client) Comment(comment CommentRequest) (response any, err error) {
 	return
 }
 
-func (c *Client) Conversation(conversation ConversationRequest) (response string, err error) {
+func (c *Client) Conversation(conversation ConversationRequest, language string) (response string, err error) {
 	payload, err := json.Marshal(conversation)
 	client := &http.Client{}
 	req, err := http.NewRequest(http.MethodPost, conversationUrl, bytes.NewBuffer(payload))
@@ -81,6 +81,9 @@ func (c *Client) Conversation(conversation ConversationRequest) (response string
 	req.Header.Add("Sec-Fetch-Mode", "cors")
 	req.Header.Add("Sec-Fetch-Dest", "empty")
 	req.Header.Add("Accept-Encoding", "gzip, deflate, br")
+	if language != "" {
+		req.Header.Add("Accept-Language", language)
+	}
 
 	res, err := client.Do(req)
 	defer res.Body.Close()
