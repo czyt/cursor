@@ -28,10 +28,10 @@ func (c *Client) Tests(data TestsRequest) (response any, err error) {
 		return
 	}
 	res, err := client.Do(req)
-	defer res.Body.Close()
 	if err != nil {
 		return
 	}
+	defer res.Body.Close()
 	return response, nil
 }
 
@@ -61,6 +61,9 @@ func (c *Client) Conversation(conversation ConversationRequest, language string)
 		return "", err
 	}
 	res, err := client.Do(req)
+	if err != nil {
+		return "", err
+	}
 	defer res.Body.Close()
 	parse := parser.Parse(res.Body)
 	return string(parse), nil
