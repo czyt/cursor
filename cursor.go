@@ -2,8 +2,8 @@ package cursor
 
 import (
 	"encoding/json"
-	"github.com/czyt/cursor/internal/builder"
-	"github.com/czyt/cursor/internal/parser"
+	"go.czyt.tech/cursor/internal/builder"
+	"go.czyt.tech/cursor/internal/parser"
 	"net/http"
 )
 
