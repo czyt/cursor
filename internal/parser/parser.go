@@ -9,9 +9,12 @@ import (
 	"strings"
 )
 
+var (
+	codeMatchRegexp = regexp.MustCompile(`"(.+)"`)
+)
+
 func takeCodePart(raw string) []string {
-	re := regexp.MustCompile(`"(.+)"`)
-	return re.FindAllString(raw, -1)
+	return codeMatchRegexp.FindAllString(raw, -1)
 }
 func Parse(reader io.Reader) []byte {
 	buffer := &bytes.Buffer{}
