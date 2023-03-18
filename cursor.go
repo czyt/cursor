@@ -1,15 +1,11 @@
 package cursor
 
 import (
-	"bufio"
 	"bytes"
 	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
-	"strconv"
-	"strings"
-	"time"
 )
 
 const (
@@ -23,62 +19,6 @@ type Client struct {
 
 func NewClient() *Client {
 	return &Client{}
-}
-
-type Decoder struct {
-	r *bufio.Reader
-}
-
-func NewDecoder(r io.Reader) *Decoder {
-	return &Decoder{
-		r: bufio.NewReader(r),
-	}
-}
-
-func (d *Decoder) Decode() (Event, error) {
-	event := Event{}
-
-	line, err := d.r.ReadString('\n')
-	if err != nil {
-		return event, err
-	}
-
-	if line == "\n" {
-		return event, nil
-	}
-
-	if line[0] == ':' {
-		return event, nil
-	}
-
-	if colon := strings.IndexByte(line, ':'); colon != -1 {
-		field := line[:colon]
-		value := strings.TrimLeft(line[colon+1:], " ")
-
-		switch field {
-		case "event":
-			event.Name = value
-		case "id":
-			event.ID = value
-		case "retry":
-			if n, err := strconv.Atoi(value); err == nil {
-				event.Retry = time.Duration(n) * time.Millisecond
-			}
-		default:
-			if strings.HasPrefix(field, "data") {
-				event.Data += value + "\n"
-			}
-		}
-	}
-
-	return event, nil
-}
-
-type Event struct {
-	Name  string
-	ID    string
-	Data  string
-	Retry time.Duration
 }
 
 func (c *Client) Tests(data TestsRequest) (response any, err error) {
