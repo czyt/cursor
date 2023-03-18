@@ -84,7 +84,6 @@ func (c *Client) Conversation(conversation ConversationRequest, language string)
 	if language != "" {
 		req.Header.Add("Accept-Language", language)
 	}
-
 	res, err := client.Do(req)
 	defer res.Body.Close()
 	parse := parser.Parse(res.Body)

@@ -57,7 +57,7 @@ func TestClient_ConversationChat(t *testing.T) {
 	cli := NewClient()
 	response, err := cli.Conversation(ConversationRequest{
 		UserRequest: UserRequest{
-			Message:              "解释这个正则",
+			Message:              "go语言发布时间",
 			CurrentFileName:      "gopher.go",
 			CurrentFileContents:  "^1[3-9]\\\\d{9}$\\n",
 			CurrentSelection:     "^1[3-9]\\\\d{9}$\\n",

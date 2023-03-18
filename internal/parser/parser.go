@@ -14,7 +14,7 @@ func takeCodePart(raw string) []string {
 	return re.FindAllString(raw, -1)
 }
 func Parse(reader io.Reader) []byte {
-	buffer := bytes.Buffer{}
+	buffer := &bytes.Buffer{}
 	replacer := strings.NewReplacer("data: ", "")
 	messageHasBegin := false
 	scanner := bufio.NewScanner(reader)
@@ -28,9 +28,9 @@ func Parse(reader io.Reader) []byte {
 			break
 		}
 		if messageHasBegin {
-			part := takeCodePart(data)
-			unquote, _ := strconv.Unquote(part[0])
-			buffer.WriteString(unquote)
+			parsedData := takeCodePart(data)
+			code, _ := strconv.Unquote(parsedData[0])
+			buffer.WriteString(code)
 		}
 	}
 	return buffer.Bytes()
