@@ -29,6 +29,9 @@ func Parse(reader io.Reader) []byte {
 		}
 		if messageHasBegin {
 			parsedData := takeCodePart(data)
+			if len(parsedData) == 0 {
+				return nil
+			}
 			code, _ := strconv.Unquote(parsedData[0])
 			buffer.WriteString(code)
 		}
