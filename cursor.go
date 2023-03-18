@@ -3,8 +3,6 @@ package cursor
 import (
 	"bytes"
 	"encoding/json"
-	"fmt"
-	"io"
 	"net/http"
 )
 
@@ -35,12 +33,9 @@ func (c *Client) Tests(data TestsRequest) (response any, err error) {
 
 	res, err := client.Do(req)
 	defer res.Body.Close()
-	body, err := io.ReadAll(res.Body)
-
 	if err != nil {
 		return
 	}
-	fmt.Println(string(body))
 	return response, nil
 }
 
@@ -68,12 +63,10 @@ func (c *Client) Comment(comment CommentRequest) (response any, err error) {
 		return
 	}
 	defer resp.Body.Close()
-	all, _ := io.ReadAll(resp.Body)
-	fmt.Println(string(all))
 	return
 }
 
-func (c *Client) Conversation(conversation ConversationRequest) (response any, err error) {
+func (c *Client) Conversation(conversation ConversationRequest) (response string, err error) {
 	payload, err := json.Marshal(conversation)
 	client := &http.Client{}
 	req, err := http.NewRequest(http.MethodPost, conversationUrl, bytes.NewBuffer(payload))
@@ -91,6 +84,5 @@ func (c *Client) Conversation(conversation ConversationRequest) (response any, e
 	res, err := client.Do(req)
 	defer res.Body.Close()
 	parse := Parse(res.Body)
-	fmt.Println(string(parse))
-	return
+	return string(parse), nil
 }
