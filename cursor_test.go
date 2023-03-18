@@ -28,7 +28,7 @@ func TestClient_Comment(t *testing.T) {
 	t.Log(response)
 }
 
-func TestClient_Conversation(t *testing.T) {
+func TestClient_ConversationGenerate(t *testing.T) {
 	cli := NewClient()
 	response, err := cli.Conversation(ConversationRequest{
 		UserRequest: UserRequest{
