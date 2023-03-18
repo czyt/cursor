@@ -1,4 +1,4 @@
-package cursor
+package parser
 
 import (
 	"bufio"
@@ -9,7 +9,7 @@ import (
 	"strings"
 )
 
-func takePart(raw string) []string {
+func takeCodePart(raw string) []string {
 	re := regexp.MustCompile(`"(.+)"`)
 	return re.FindAllString(raw, -1)
 }
@@ -28,7 +28,7 @@ func Parse(reader io.Reader) []byte {
 			break
 		}
 		if messageHasBegin {
-			part := takePart(data)
+			part := takeCodePart(data)
 			unquote, _ := strconv.Unquote(part[0])
 			buffer.WriteString(unquote)
 		}

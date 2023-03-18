@@ -3,6 +3,7 @@ package cursor
 import (
 	"bytes"
 	"encoding/json"
+	"github.com/czyt/cursor/internal/parser"
 	"net/http"
 )
 
@@ -83,6 +84,6 @@ func (c *Client) Conversation(conversation ConversationRequest) (response string
 
 	res, err := client.Do(req)
 	defer res.Body.Close()
-	parse := Parse(res.Body)
+	parse := parser.Parse(res.Body)
 	return string(parse), nil
 }

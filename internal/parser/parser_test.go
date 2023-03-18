@@ -1,4 +1,4 @@
-package cursor
+package parser
 
 import (
 	"bytes"
@@ -109,7 +109,7 @@ data: [DONE]`)
 }
 
 func TestTakePart(t *testing.T) {
-	part := takePart(`data: "\tdefer"`)
+	part := takeCodePart(`data: "\tdefer"`)
 	unquote, _ := strconv.Unquote(part[0])
 	fmt.Println(unquote)
 }
