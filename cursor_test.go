@@ -79,3 +79,25 @@ func TestClient_ConversationChat(t *testing.T) {
 	}
 	t.Log(response)
 }
+
+// Todo: add message type :freeform
+//{
+//	"userRequest": {
+//		"message": "如何优化这个程序",
+//		"currentRootPath": "C:\\Users\\czyt\\cursor-tutor",
+//		"currentFileName": "C:\\Users\\czyt\\cursor-tutor\\gopher.go",
+//		"currentFileContents": "package main\n\nimport \"fmt\"\n\ntype C chan C\n\nfunc main() {\n  var c = make(C, 1)\n  c <- c\n  for i := 0; ; i++ {\n    select {\n    case <-c:\n    case <-c:\n      c <- c\n    default:\n      fmt.Println(i)\n      return\n    }\n  }\n}",
+//		"precedingCode": [],
+//		"currentSelection": "package main\n\nimport \"fmt\"\n\ntype C chan C\n\nfunc main() {\n  var c = make(C, 1)\n  c <- c\n  for i := 0; ; i++ {\n    select {\n    case <-c:\n    case <-c:\n      c <- c\n    default:\n      fmt.Println(i)\n      return\n    }\n  }\n}",
+//		"suffixCode": [],
+//		"copilotCodeBlocks": [],
+//		"customCodeBlocks": [],
+//		"codeBlockIdentifiers": [],
+//		"msgType": "freeform",
+//		"maxOrigLine": null
+//	},
+//	"userMessages": [],
+//	"botMessages": [],
+//	"contextType": "copilot",
+//	"rootPath": "C:\\Users\\czyt\\cursor-tutor"
+//}
