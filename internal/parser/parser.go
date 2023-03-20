@@ -7,6 +7,7 @@ import (
 	"regexp"
 	"strconv"
 	"strings"
+	"unicode/utf8"
 )
 
 var (
@@ -17,27 +18,38 @@ func takeCodePart(raw string) []string {
 	return codeMatchRegexp.FindAllString(raw, -1)
 }
 func Parse(reader io.Reader) []byte {
-	buffer := &bytes.Buffer{}
+	data := new(bytes.Buffer)
 	replacer := strings.NewReplacer("data: ", "")
 	messageHasBegin := false
 	scanner := bufio.NewScanner(reader)
 	for scanner.Scan() {
-		data := replacer.Replace(scanner.Text())
-		if strings.Contains(data, "<|BEGIN_message|>") {
+		content := replacer.Replace(scanner.Text())
+		if strings.Contains(content, "<|BEGIN_message|>") {
 			messageHasBegin = true
 			continue
 		}
-		if strings.Contains(data, "<|END_message|>") {
+		if strings.Contains(content, "<|END_message|>") || strings.Contains(content, "[DONE]") {
 			break
 		}
-		if messageHasBegin {
-			parsedData := takeCodePart(data)
-			if len(parsedData) == 0 {
-				return nil
-			}
-			code, _ := strconv.Unquote(parsedData[0])
-			buffer.WriteString(code)
+		if !messageHasBegin {
+			continue
 		}
+		parsedData := takeCodePart(content)
+		if len(parsedData) == 0 {
+			return nil
+		}
+		code, _ := strconv.Unquote(parsedData[0])
+		r, size := utf8.DecodeRuneInString(code)
+		if size == 1 {
+			data.WriteString(code)
+			continue
+		}
+		if r < utf8.RuneSelf {
+			data.WriteByte(byte(r))
+			continue
+		}
+		data.WriteRune(r)
+
 	}
-	return buffer.Bytes()
+	return data.Bytes()
 }
