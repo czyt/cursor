@@ -71,6 +71,9 @@ func (c *Client) Conversation(conversation ConversationRequest, language string)
 		return "", err
 	}
 	defer res.Body.Close()
-	parse := parser.Parse(res.Body)
+	parse, err := parser.Parse(res.Body)
+	if err != nil {
+		return "", err
+	}
 	return string(parse), nil
 }
