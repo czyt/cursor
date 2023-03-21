@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"encoding/base64"
 	"fmt"
-	"strconv"
 	"testing"
 )
 
@@ -103,14 +102,8 @@ data: " executing\")\n}\n"
 data: "<|END_message|>"
 data: [DONE]`)
 	reader := bytes.NewBuffer(code)
-	parse := Parse(reader)
+	parse, _ := Parse(reader)
 	fmt.Println(string(parse))
-}
-
-func TestTakePart(t *testing.T) {
-	part := takeCodePart(`"\u8fd9"`)
-	unquote, _ := strconv.Unquote(part[0])
-	fmt.Println(unquote)
 }
 
 func TestParse2(t *testing.T) {
@@ -120,6 +113,6 @@ func TestParse2(t *testing.T) {
 		t.Fatal(err)
 	}
 	buffer := bytes.NewBuffer(decodeString)
-	parsePayload := Parse(buffer)
-	fmt.Println(len(parsePayload))
+	parsePayload, _ := Parse(buffer)
+	fmt.Println(string(parsePayload))
 }
