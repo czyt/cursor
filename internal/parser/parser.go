@@ -8,12 +8,21 @@ import (
 )
 
 var (
-	headerData = []byte("data: ")
+	headerData   = []byte("data: ")
+	beginType    = []byte("<|BEGIN_type|>")
+	endType      = []byte("<|END_type|>")
+	beginMessage = []byte("<|BEGIN_message|>")
+	endMessage   = []byte("<|END_message|>")
+	end          = []byte("[DONE]")
 )
 
 func Parse(reader io.Reader) ([]byte, error) {
+
+	var (
+		isMessageBegin = false
+		isFinished     = false
+	)
 	data := new(bytes.Buffer)
-	isFinished := false
 	scanner := bufio.NewScanner(reader)
 	for scanner.Scan() && !isFinished {
 		line := scanner.Bytes()
@@ -21,11 +30,27 @@ func Parse(reader io.Reader) ([]byte, error) {
 		if !bytes.HasPrefix(line, headerData) {
 			continue
 		}
+
 		line = bytes.TrimPrefix(line, headerData)
-		if string(line) == "[DONE]" {
-			isFinished = true
+
+		// Message begin
+		if bytes.Contains(line, beginMessage) {
+			isMessageBegin = true
+			continue
 		}
-		if !isFinished {
+		// message end
+		if bytes.EqualFold(line, end) {
+			isFinished = true
+			continue
+		}
+		// special content skip
+		if bytes.Contains(line, beginType) ||
+			bytes.Contains(line, endType) ||
+			bytes.Contains(line, endMessage) {
+			continue
+		}
+
+		if !isFinished && isMessageBegin {
 			unquote, err := strconv.Unquote(string(line))
 			if err != nil {
 				continue
