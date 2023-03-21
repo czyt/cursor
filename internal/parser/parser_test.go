@@ -101,7 +101,7 @@ data: " finished"
 data: " executing\")\n}\n"
 data: "<|END_message|>"
 data: [DONE]`)
-	reader := bytes.NewBuffer(code)
+	reader := bytes.NewReader(code)
 	parse, _ := Parse(reader)
 	fmt.Println(string(parse))
 }
