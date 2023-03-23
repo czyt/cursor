@@ -13,6 +13,7 @@ var (
 	endType      = []byte("<|END_type|>")
 	beginMessage = []byte("<|BEGIN_message|>")
 	endMessage   = []byte("<|END_message|>")
+	endInterrupt = []byte("<|END_interrupt|>")
 	end          = []byte("[DONE]")
 )
 
